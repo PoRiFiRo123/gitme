@@ -339,7 +339,7 @@ const Processing = () => {
         </main>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 8px;
         }

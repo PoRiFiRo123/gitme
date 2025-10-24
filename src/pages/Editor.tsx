@@ -377,7 +377,7 @@ const Editor = () => {
         </main>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 10px;
           height: 10px;
