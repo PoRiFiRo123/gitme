@@ -1,1 +1,4 @@
 project_id = "biyhrxrumyvwtwonlbwq"
+
+[functions.generate-readme]
+verify_jwt = false
