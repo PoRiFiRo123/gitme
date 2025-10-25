@@ -65,7 +65,7 @@ export const Navbar = () => {
 
                 {/* GitHub Button */}
                 <a
-                  href="https://github.com/yourusername/gitme"
+                  href="https://github.com/PoRiFiRo123/gitme"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative overflow-hidden px-4 py-2 rounded-xl backdrop-blur-sm bg-white/5 border border-white/10 hover:border-white/20 transition-all duration-300"
