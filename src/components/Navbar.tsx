@@ -1,4 +1,4 @@
-import { Github, BookOpen, Sparkles } from "lucide-react";
+import { Github, BookOpen, Sparkles, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getRepoStars } from "@/utils/githubApiClient";
 
@@ -96,9 +96,10 @@ export const Navbar = () => {
                       Star on GitHub
                     </span>
                     {stars !== null && (
-                      <span className="text-sm font-medium text-slate-400 group-hover:text-white transition-colors">
-                        ({stars})
-                      </span>
+                      <div className="flex items-center text-sm font-medium text-slate-400 group-hover:text-white transition-colors">
+                        <Star className="w-4 h-4 mr-1 text-yellow-400 fill-current" />
+                        {stars}
+                      </div>
                     )}
                   </div>
                 </a>

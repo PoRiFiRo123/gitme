@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,6 +17,58 @@ const Editor = () => {
   const [content, setContent] = useState(initialContent);
   const [copied, setCopied] = useState(false);
   const [view, setView] = useState<"split" | "edit" | "preview">("split");
+  const [scrollSyncEnabled, setScrollSyncEnabled] = useState<boolean>(true);
+
+  // Smooth synced scrolling refs (Split view only)
+  const editorTextRef = useRef<HTMLTextAreaElement | null>(null);
+  const previewScrollRef = useRef<HTMLDivElement | null>(null);
+  const isSyncingRef = useRef<boolean>(false);
+
+  const smoothScrollTo = (el: HTMLElement, top: number) => {
+    if ("scrollTo" in el) {
+      (el as any).scrollTo({ top, behavior: "smooth" });
+    } else {
+      (el as any).scrollTop = top;
+    }
+  };
+
+  const handleEditorScrollSplit = () => {
+    if (view !== "split") return;
+    if (!scrollSyncEnabled) return;
+    const editorEl = editorTextRef.current;
+    const previewEl = previewScrollRef.current;
+    if (!editorEl || !previewEl || isSyncingRef.current) return;
+  
+    const maxSrc = editorEl.scrollHeight - editorEl.clientHeight;
+    const maxDst = previewEl.scrollHeight - previewEl.clientHeight;
+    if (maxSrc <= 0 || maxDst <= 0) return;
+  
+    const ratio = editorEl.scrollTop / maxSrc;
+    isSyncingRef.current = true;
+    requestAnimationFrame(() => {
+      previewEl.scrollTop = ratio * maxDst;
+      isSyncingRef.current = false;
+    });
+  };
+
+  const handlePreviewScrollSplit = () => {
+    if (view !== "split") return;
+    if (!scrollSyncEnabled) return;
+    const editorEl = editorTextRef.current;
+    const previewEl = previewScrollRef.current;
+    if (!editorEl || !previewEl || isSyncingRef.current) return;
+  
+    const maxSrc = previewEl.scrollHeight - previewEl.clientHeight;
+    const maxDst = editorEl.scrollHeight - editorEl.clientHeight;
+    if (maxSrc <= 0 || maxDst <= 0) return;
+  
+    const ratio = previewEl.scrollTop / maxSrc;
+    isSyncingRef.current = true;
+    requestAnimationFrame(() => {
+      editorEl.scrollTop = ratio * maxDst;
+      isSyncingRef.current = false;
+    });
+  };
 
   const handleCopy = async () => {
     try {
@@ -180,6 +232,22 @@ const Editor = () => {
               <div className="flex-1"></div>
 
               <div className="flex items-center gap-2">
+                {/* Scroll Sync Toggle (Option 2 placement) */}
+                <Button
+                  onClick={() => setScrollSyncEnabled((v) => !v)}
+                  size="sm"
+                  aria-pressed={scrollSyncEnabled}
+                  title={scrollSyncEnabled ? "Disable scroll sync" : "Enable scroll sync"}
+                  className={`gap-2 ${
+                    scrollSyncEnabled
+                      ? "bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 shadow-lg shadow-green-500/30"
+                      : "bg-slate-900/50 border border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white backdrop-blur-xl"
+                  }`}
+                >
+                  <RefreshCw className="w-4 h-4" />
+                  {scrollSyncEnabled ? "Sync On" : "Sync Off"}
+                </Button>
+
                 <Button
                   onClick={handleReset}
                   variant="outline"
@@ -230,12 +298,14 @@ const Editor = () => {
             {/* Editor Container */}
             <div className="relative animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
               <div className="absolute -inset-4 bg-gradient-to-r from-green-500/20 via-emerald-500/20 to-teal-500/20 rounded-3xl blur-3xl opacity-50"></div>
-              <Card className="relative border-slate-800 bg-slate-900/50 backdrop-blur-xl rounded-3xl overflow-hidden shadow-2xl min-h-[600px]">
-                <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-emerald-500/5 to-transparent"></div>
+              {/* Fixed-height card so only inner content scrolls */}
+              <Card className="relative border-slate-800 bg-slate-900/50 backdrop-blur-xl rounded-3xl overflow-hidden shadow-2xl h-[calc(100vh-260px)] md:h-[calc(100vh-300px)] flex flex-col min-h-[520px]">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-emerald-500/5 to-transparent pointer-events-none"></div>
                 
+                {/* EDIT VIEW */}
                 {view === "edit" && (
-                  <div className="relative">
-                    <div className="px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm flex items-center gap-3">
+                  <div className="relative flex flex-col h-full min-h-0">
+                    <div className="px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm flex items-center gap-3 shrink-0">
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-red-500"></div>
                         <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -249,20 +319,20 @@ const Editor = () => {
                         Markdown
                       </Badge>
                     </div>
-                    <div className="p-6">
-                      <Textarea
-                        value={content}
+                    <div className="flex-1 overflow-y-auto p-6 min-h-0">
+                      <Textarea ref={editorTextRef} onScroll={handleEditorScrollSplit} value={content}
                         onChange={(e) => setContent(e.target.value)}
-                        className="min-h-[600px] font-mono text-sm resize-none bg-slate-950/50 border-slate-700 text-white placeholder:text-slate-500 focus:border-green-500 transition-colors"
+                        className="custom-scrollbar w-full h-full min-h-0 font-mono text-sm resize-none bg-slate-950/50 border-slate-700 text-white placeholder:text-slate-500 focus:border-green-500 transition-colors"
                         placeholder="Edit your README content here..."
                       />
                     </div>
                   </div>
                 )}
 
+                {/* PREVIEW VIEW */}
                 {view === "preview" && (
-                  <div className="relative">
-                    <div className="px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm flex items-center gap-3">
+                  <div className="relative flex flex-col h-full min-h-0">
+                    <div className="px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm flex items-center gap-3 shrink-0">
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-red-500"></div>
                         <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -276,8 +346,8 @@ const Editor = () => {
                         Live
                       </Badge>
                     </div>
-                    <div className="p-8 min-h-[600px] overflow-y-auto custom-scrollbar">
-                      <div className="prose prose-invert prose-green max-w-none">
+                    <div className="flex-1 overflow-y-auto p-8 min-h-0 custom-scrollbar">
+                      <div className="custom-scrollbar prose prose-invert prose-green max-w-none">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {content}
                         </ReactMarkdown>
@@ -286,10 +356,12 @@ const Editor = () => {
                   </div>
                 )}
 
+                {/* SPLIT VIEW */}
                 {view === "split" && (
-                  <div className="relative grid md:grid-cols-2 grid-cols-1">
-                    <div className="border-r border-slate-800">
-                      <div className="px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm flex items-center gap-3">
+                  <div className="relative grid md:grid-cols-2 grid-cols-1 h-full min-h-0">
+                    {/* Editor Panel */}
+                    <div className="flex flex-col border-b md:border-b-0 md:border-r border-slate-800 min-h-0">
+                      <div className="px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm flex items-center gap-3 shrink-0">
                         <div className="flex items-center gap-2">
                           <div className="w-3 h-3 rounded-full bg-red-500"></div>
                           <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -300,18 +372,21 @@ const Editor = () => {
                           <span className="text-sm font-medium text-slate-300">Editor</span>
                         </div>
                       </div>
-                      <div className="p-6">
+                      <div className="flex-1 overflow-y-auto p-6 min-h-0">
                         <Textarea
+                          ref={editorTextRef} 
+                          onScroll={handleEditorScrollSplit}
                           value={content}
                           onChange={(e) => setContent(e.target.value)}
-                          className="min-h-[600px] font-mono text-sm resize-none bg-slate-950/50 border-slate-700 text-white placeholder:text-slate-500 focus:border-green-500 transition-colors"
+                          className="custom-scrollbar w-full h-full min-h-0 font-mono text-sm resize-none bg-slate-950/50 border-slate-700 text-white placeholder:text-slate-500 focus:border-green-500 transition-colors"
                           placeholder="Edit your README content here..."
                         />
                       </div>
                     </div>
 
-                    <div className="flex flex-col">
-                      <div className="px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm flex items-center gap-3">
+                    {/* Preview Panel */}
+                    <div className="flex flex-col min-h-0">
+                      <div className="px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm flex items-center gap-3 shrink-0">
                         <div className="flex items-center gap-2">
                           <div className="w-3 h-3 rounded-full bg-red-500"></div>
                           <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -322,8 +397,12 @@ const Editor = () => {
                           <span className="text-sm font-medium text-slate-300">Preview</span>
                         </div>
                       </div>
-                      <div className="flex-1 p-8 overflow-y-auto bg-slate-950/30 custom-scrollbar">
-                        <div className="prose prose-invert prose-green max-w-none">
+                      <div
+                        className="flex-1 p-8 overflow-y-auto min-h-0 custom-scrollbar"
+                        ref={previewScrollRef}
+                        onScroll={handlePreviewScrollSplit}
+                      >
+                        <div className="custom-scrollbar prose prose-invert prose-green max-w-none">
                           <ReactMarkdown remarkPlugins={[remarkGfm]}>
                             {content}
                           </ReactMarkdown>
@@ -379,19 +458,20 @@ const Editor = () => {
 
       <style>{`
         .custom-scrollbar::-webkit-scrollbar {
-          width: 10px;
-          height: 10px;
+          width: 12px !important;
+          height: 12px !important;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(15, 23, 42, 0.5);
-          border-radius: 10px;
+          background: rgba(20, 83, 45, 0.7) !important;
+          border-radius: 10px !important;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(71, 85, 105, 0.5);
-          border-radius: 10px;
+          background: rgba(16, 185, 129, 0.8) !important;
+          border-radius: 10px !important;
+          border: 3px solid rgba(20, 83, 45, 0.7) !important; /* Adds a border to the thumb matching track color */
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(71, 85, 105, 0.8);
+          background: rgba(16, 185, 129, 1) !important; /* Fully opaque emerald green on hover */
         }
         
         .prose-green {

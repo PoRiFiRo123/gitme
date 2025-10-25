@@ -313,18 +313,20 @@ const Processing = () => {
 
       <style>{`
         .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
+          width: 12px !important;
+          height: 12px !important;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(15, 23, 42, 0.5);
-          border-radius: 10px;
+          background: rgba(20, 83, 45, 0.7) !important;
+          border-radius: 10px !important;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(71, 85, 105, 0.5);
-          border-radius: 10px;
+          background: rgba(16, 185, 129, 0.8) !important;
+          border-radius: 10px !important;
+          border: 3px solid rgba(20, 83, 45, 0.7) !important; /* Adds a border to the thumb matching track color */
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(71, 85, 105, 0.8);
+          background: rgba(16, 185, 129, 1) !important; /* Fully opaque emerald green on hover */
         }
       `}</style>
     </div>
