@@ -93,26 +93,28 @@ const Processing = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white overflow-hidden relative">
-      {/* Animated Grid Background */}
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 overflow-hidden relative">
+      {/* Animated Background Elements */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950"></div>
+        {/* Gradient Mesh Background */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.1),transparent_50%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.1),transparent_50%)]"></div>
+        
+        {/* Visible Mesh Pattern */}
         <div 
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 opacity-[0.15]"
           style={{
             backgroundImage: `
               linear-gradient(to right, rgb(148, 163, 184) 1px, transparent 1px),
               linear-gradient(to bottom, rgb(148, 163, 184) 1px, transparent 1px)
             `,
-            backgroundSize: '80px 80px',
-            maskImage: 'radial-gradient(ellipse 80% 50% at 50% 50%, black 40%, transparent 100%)'
+            backgroundSize: '24px 24px'
           }}
         ></div>
         
-        {/* Floating Orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        {/* Floating Gradient Orbs */}
+        <div className="absolute top-[10%] left-[15%] w-[500px] h-[500px] bg-gradient-to-br from-blue-200/40 via-indigo-200/40 to-purple-200/40 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-[15%] right-[10%] w-[600px] h-[600px] bg-gradient-to-br from-cyan-200/40 via-blue-200/40 to-indigo-200/40 rounded-full blur-3xl animate-float-delayed"></div>
+        <div className="absolute top-[50%] right-[25%] w-[400px] h-[400px] bg-gradient-to-br from-purple-200/30 via-pink-200/30 to-rose-200/30 rounded-full blur-3xl animate-float-slow"></div>
       </div>
 
       <div className="relative z-10">
@@ -127,17 +129,17 @@ const Processing = () => {
                 variant="ghost"
                 size="icon"
                 onClick={() => navigate("/")}
-                className="h-12 w-12 rounded-xl bg-slate-900/50 backdrop-blur-xl border border-slate-800 hover:bg-slate-800 hover:border-slate-700 transition-all"
+                className="h-12 w-12 rounded-2xl bg-white/60 backdrop-blur-xl border-2 border-blue-200/50 hover:bg-white/80 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-200/50 transition-all"
               >
-                <ArrowLeft className="h-5 w-5 text-slate-400" />
+                <ArrowLeft className="h-5 w-5 text-slate-700" />
               </Button>
               <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
+                <h1 className="text-4xl font-black bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
                   Processing Repository
                 </h1>
-                <p className="text-slate-400 mt-2 flex items-center gap-2">
+                <p className="text-slate-600 mt-2 flex items-center gap-2 font-medium">
                   <span>Analyzing:</span>
-                  <span className="font-mono text-blue-400 bg-slate-900/50 px-3 py-1 rounded-lg border border-slate-800">
+                  <span className="font-mono text-blue-600 bg-blue-50 px-3 py-1 rounded-xl border border-blue-200">
                     {repoUrl}
                   </span>
                 </p>
@@ -146,16 +148,16 @@ const Processing = () => {
 
             {/* Main Processing Card */}
             <div className="relative animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100">
-              <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 rounded-3xl blur-3xl opacity-75"></div>
-              <Card className="relative border-slate-800 bg-slate-900/50 backdrop-blur-xl rounded-3xl overflow-hidden shadow-2xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-cyan-500/5"></div>
+              <div className="absolute -inset-4 bg-gradient-to-r from-blue-300/40 via-indigo-300/40 to-purple-300/40 rounded-3xl blur-3xl opacity-75"></div>
+              <Card className="relative border-2 border-blue-200/50 bg-white/80 backdrop-blur-xl rounded-3xl overflow-hidden shadow-2xl shadow-blue-200/50">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-indigo-50/30 to-purple-50/50"></div>
                 
-                <CardHeader className="space-y-6 relative">
+                <CardHeader className="space-y-6 relative p-8">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <div className="relative">
-                        <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl blur-xl opacity-75 animate-pulse"></div>
-                        <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 via-purple-500 to-cyan-500 flex items-center justify-center shadow-2xl">
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl blur-xl opacity-75 animate-pulse"></div>
+                        <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-500 flex items-center justify-center shadow-2xl shadow-blue-400/50">
                           {isProcessing ? (
                             <Loader2 className="w-8 h-8 text-white animate-spin" />
                           ) : (
@@ -164,35 +166,35 @@ const Processing = () => {
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <CardTitle className="text-3xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+                        <CardTitle className="text-3xl font-black bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
                           {isProcessing ? "Generating README" : "Complete!"}
                         </CardTitle>
-                        <p className="text-base text-slate-400">
+                        <p className="text-base text-slate-600 font-medium">
                           {currentStep}
                         </p>
                       </div>
                     </div>
-                    <Badge className="text-lg px-4 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border-blue-500/30 text-blue-300 font-bold">
+                    <Badge className="text-lg px-5 py-2 bg-gradient-to-r from-blue-100 to-indigo-100 border-2 border-blue-300/50 text-blue-700 font-black shadow-lg shadow-blue-200/50">
                       {Math.round(progress)}%
                     </Badge>
                   </div>
 
                   {/* Progress Bar */}
                   <div className="space-y-3">
-                    <div className="relative h-3 rounded-full bg-slate-800/50 overflow-hidden">
+                    <div className="relative h-4 rounded-full bg-gradient-to-r from-slate-100 to-blue-100 overflow-hidden border-2 border-blue-200/50 shadow-inner">
                       <div 
-                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 rounded-full transition-all duration-500 ease-out shadow-lg shadow-blue-500/50"
+                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 transition-all duration-500 ease-out shadow-lg"
                         style={{ width: `${progress}%` }}
                       ></div>
                       <div 
-                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-white/20 to-transparent rounded-full transition-all duration-500"
+                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-white/40 to-transparent transition-all duration-500"
                         style={{ width: `${progress}%` }}
                       ></div>
                     </div>
                   </div>
                 </CardHeader>
 
-                <CardContent className="space-y-8 relative">
+                <CardContent className="space-y-8 relative p-8 pt-0">
                   {/* Steps Grid */}
                   <div className="grid md:grid-cols-3 gap-6">
                     {steps.map((step, index) => {
@@ -207,35 +209,35 @@ const Processing = () => {
                             isActive ? 'scale-100 opacity-100' : 'scale-95 opacity-50'
                           }`}
                         >
-                          <div className={`absolute -inset-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl blur-lg opacity-0 group-hover:opacity-50 transition-opacity ${isActive ? 'opacity-30' : ''}`}></div>
-                          <div className={`relative flex flex-col items-center gap-4 p-6 rounded-2xl border transition-all ${
+                          <div className={`absolute -inset-1 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-2xl blur-lg opacity-0 group-hover:opacity-50 transition-opacity ${isActive ? 'opacity-30' : ''}`}></div>
+                          <div className={`relative flex flex-col items-center gap-4 p-6 rounded-2xl border-2 transition-all ${
                             isActive
-                              ? "border-slate-700 bg-slate-800/50"
-                              : "border-slate-800 bg-slate-900/30"
+                              ? "border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 shadow-lg shadow-blue-200/50"
+                              : "border-slate-200 bg-white/60"
                           }`}>
-                            <div className={`relative w-16 h-16 rounded-2xl flex items-center justify-center transition-all ${
+                            <div className={`relative w-16 h-16 rounded-2xl flex items-center justify-center transition-all shadow-lg ${
                               isComplete
-                                ? "bg-gradient-to-br from-green-500/20 to-emerald-500/20"
+                                ? "bg-gradient-to-br from-emerald-400 to-teal-500 shadow-emerald-300/50"
                                 : isActive
-                                ? "bg-gradient-to-br from-blue-500/20 to-cyan-500/20"
-                                : "bg-slate-800/50"
+                                ? "bg-gradient-to-br from-blue-500 to-indigo-500 shadow-blue-300/50"
+                                : "bg-slate-100"
                             }`}>
                               {isComplete ? (
-                                <CheckCircle2 className="w-8 h-8 text-green-400 animate-in zoom-in duration-500" />
+                                <CheckCircle2 className="w-8 h-8 text-white animate-in zoom-in duration-500" />
                               ) : (
                                 <StepIcon className={`w-8 h-8 transition-all ${
-                                  isActive ? "text-white" : "text-slate-600"
+                                  isActive ? "text-white" : "text-slate-400"
                                 } ${isActive && !isComplete ? 'animate-pulse' : ''}`} />
                               )}
                             </div>
                             <div className="text-center space-y-1">
-                              <span className={`text-sm font-semibold transition-colors ${
-                                isActive ? "text-white" : "text-slate-500"
+                              <span className={`text-sm font-bold transition-colors ${
+                                isActive ? "text-slate-800" : "text-slate-500"
                               }`}>
                                 {step.label}
                               </span>
                               {isComplete && (
-                                <div className="text-xs text-green-400 font-medium">
+                                <div className="text-xs text-emerald-600 font-bold">
                                   ✓ Complete
                                 </div>
                               )}
@@ -251,33 +253,33 @@ const Processing = () => {
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <Zap className="w-5 h-5 text-blue-400" />
-                          <h3 className="text-lg font-bold text-white">Activity Log</h3>
+                          <Zap className="w-5 h-5 text-blue-600" />
+                          <h3 className="text-lg font-black text-slate-800">Activity Log</h3>
                         </div>
-                        <Badge variant="outline" className="bg-slate-800/50 border-slate-700 text-slate-300">
+                        <Badge variant="outline" className="bg-blue-50 border-blue-300 text-blue-700 font-bold">
                           {logs.length} events
                         </Badge>
                       </div>
                       <div className="relative">
-                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl blur"></div>
-                        <div className="relative bg-slate-950/50 backdrop-blur-sm rounded-2xl p-6 font-mono text-sm max-h-72 overflow-y-auto space-y-2 border border-slate-800/50 custom-scrollbar">
+                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-200/40 to-indigo-200/40 rounded-2xl blur"></div>
+                        <div className="relative bg-gradient-to-br from-slate-50 to-blue-50 backdrop-blur-sm rounded-2xl p-6 font-mono text-sm max-h-72 overflow-y-auto space-y-2 border-2 border-blue-200/50 custom-scrollbar shadow-inner">
                           {logs.map((log, index) => (
                             <div
                               key={index}
-                              className="text-slate-400 animate-in fade-in slide-in-from-left-2 duration-300 flex items-start gap-2"
+                              className="text-slate-600 animate-in fade-in slide-in-from-left-2 duration-300 flex items-start gap-2"
                               style={{ animationDelay: `${index * 50}ms` }}
                             >
                               {log.type === 'error' ? (
-                                <AlertCircle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                                <AlertCircle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
                               ) : log.type === 'success' ? (
-                                <CheckCircle2 className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+                                <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
                               ) : (
-                                <span className="text-blue-400 mt-0.5 flex-shrink-0">›</span>
+                                <span className="text-blue-600 mt-0.5 flex-shrink-0 font-bold">›</span>
                               )}
-                              <span className={`flex-1 ${
-                                log.type === 'error' ? 'text-red-400' : 
-                                log.type === 'success' ? 'text-green-400' : 
-                                'text-slate-400'
+                              <span className={`flex-1 font-medium ${
+                                log.type === 'error' ? 'text-red-600' : 
+                                log.type === 'success' ? 'text-emerald-600' : 
+                                'text-slate-600'
                               }`}>
                                 {log.message}
                               </span>
@@ -293,13 +295,13 @@ const Processing = () => {
 
             {/* Info Card */}
             <div className="text-center space-y-3 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
-              <div className="flex items-center justify-center gap-2 text-slate-400">
-                <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></div>
-                <p className="text-sm font-medium">
+              <div className="flex items-center justify-center gap-2 text-slate-600">
+                <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse shadow-lg shadow-blue-400/50"></div>
+                <p className="text-sm font-semibold">
                   This usually takes 10-30 seconds depending on repository size
                 </p>
               </div>
-              <div className="flex items-center justify-center gap-6 text-xs text-slate-600">
+              <div className="flex items-center justify-center gap-6 text-xs text-slate-500 font-medium">
                 <span>Powered by AI</span>
                 <span>•</span>
                 <span>Secure Processing</span>
@@ -312,21 +314,45 @@ const Processing = () => {
       </div>
 
       <style>{`
+        @keyframes float {
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          33% { transform: translate(30px, -30px) rotate(5deg); }
+          66% { transform: translate(-20px, 20px) rotate(-5deg); }
+        }
+        @keyframes float-delayed {
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          33% { transform: translate(-40px, 30px) rotate(-5deg); }
+          66% { transform: translate(30px, -20px) rotate(5deg); }
+        }
+        @keyframes float-slow {
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          50% { transform: translate(20px, 20px) rotate(3deg); }
+        }
+        .animate-float {
+          animation: float 20s ease-in-out infinite;
+        }
+        .animate-float-delayed {
+          animation: float-delayed 25s ease-in-out infinite;
+        }
+        .animate-float-slow {
+          animation: float-slow 30s ease-in-out infinite;
+        }
         .custom-scrollbar::-webkit-scrollbar {
           width: 12px !important;
           height: 12px !important;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(20, 83, 45, 0.7) !important;
+          background: rgba(219, 234, 254, 0.5) !important;
           border-radius: 10px !important;
+          border: 2px solid rgba(147, 197, 253, 0.3) !important;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(16, 185, 129, 0.8) !important;
+          background: linear-gradient(to bottom, rgb(59, 130, 246), rgb(99, 102, 241)) !important;
           border-radius: 10px !important;
-          border: 3px solid rgba(20, 83, 45, 0.7) !important; /* Adds a border to the thumb matching track color */
+          border: 3px solid rgba(219, 234, 254, 0.5) !important;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(16, 185, 129, 1) !important; /* Fully opaque emerald green on hover */
+          background: linear-gradient(to bottom, rgb(37, 99, 235), rgb(79, 70, 229)) !important;
         }
       `}</style>
     </div>

@@ -19,22 +19,12 @@ const Editor = () => {
   const [view, setView] = useState<"split" | "edit" | "preview">("split");
   const [scrollSyncEnabled, setScrollSyncEnabled] = useState<boolean>(true);
 
-  // Smooth synced scrolling refs (Split view only)
   const editorTextRef = useRef<HTMLTextAreaElement | null>(null);
   const previewScrollRef = useRef<HTMLDivElement | null>(null);
   const isSyncingRef = useRef<boolean>(false);
 
-  const smoothScrollTo = (el: HTMLElement, top: number) => {
-    if ("scrollTo" in el) {
-      (el as any).scrollTo({ top, behavior: "smooth" });
-    } else {
-      (el as any).scrollTop = top;
-    }
-  };
-
   const handleEditorScrollSplit = () => {
-    if (view !== "split") return;
-    if (!scrollSyncEnabled) return;
+    if (view !== "split" || !scrollSyncEnabled) return;
     const editorEl = editorTextRef.current;
     const previewEl = previewScrollRef.current;
     if (!editorEl || !previewEl || isSyncingRef.current) return;
@@ -52,8 +42,7 @@ const Editor = () => {
   };
 
   const handlePreviewScrollSplit = () => {
-    if (view !== "split") return;
-    if (!scrollSyncEnabled) return;
+    if (view !== "split" || !scrollSyncEnabled) return;
     const editorEl = editorTextRef.current;
     const previewEl = previewScrollRef.current;
     if (!editorEl || !previewEl || isSyncingRef.current) return;
@@ -137,25 +126,27 @@ const Editor = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white overflow-hidden relative">
-      {/* Animated Grid Background */}
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 overflow-hidden relative">
+      {/* Animated Background Elements */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950"></div>
+        {/* Gradient Mesh Background */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.1),transparent_50%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.1),transparent_50%)]"></div>
+        
+        {/* Visible Mesh Pattern */}
         <div 
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 opacity-[0.15]"
           style={{
             backgroundImage: `
               linear-gradient(to right, rgb(148, 163, 184) 1px, transparent 1px),
               linear-gradient(to bottom, rgb(148, 163, 184) 1px, transparent 1px)
             `,
-            backgroundSize: '80px 80px',
-            maskImage: 'radial-gradient(ellipse 80% 50% at 50% 50%, black 40%, transparent 100%)'
+            backgroundSize: '24px 24px'
           }}
         ></div>
         
-        {/* Floating Orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-green-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        {/* Floating Gradient Orbs */}
+        <div className="absolute top-[10%] left-[15%] w-[500px] h-[500px] bg-gradient-to-br from-blue-200/40 via-indigo-200/40 to-purple-200/40 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-[15%] right-[10%] w-[600px] h-[600px] bg-gradient-to-br from-cyan-200/40 via-blue-200/40 to-indigo-200/40 rounded-full blur-3xl animate-float-delayed"></div>
       </div>
 
       <div className="relative z-10">
@@ -166,10 +157,10 @@ const Editor = () => {
             
             {/* Header */}
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-              <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent mb-2">
+              <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent mb-2">
                 README Editor
               </h1>
-              <p className="text-slate-400 text-lg">Edit and preview your generated documentation</p>
+              <p className="text-slate-600 text-lg font-medium">Edit and preview your generated documentation</p>
             </div>
 
             {/* Stats Cards */}
@@ -178,16 +169,16 @@ const Editor = () => {
                 const StatIcon = stat.icon;
                 return (
                   <div key={index} className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <Card className="relative border-slate-800 bg-slate-900/50 backdrop-blur-xl hover:bg-slate-900/80 transition-all">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-blue-300/40 to-indigo-300/40 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <Card className="relative border-2 border-blue-200/50 bg-white/70 backdrop-blur-xl hover:bg-white/90 hover:border-blue-300 transition-all shadow-lg shadow-blue-200/30">
                       <CardContent className="p-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center">
-                            <StatIcon className="w-5 h-5 text-green-400" />
+                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-300/50">
+                            <StatIcon className="w-5 h-5 text-white" />
                           </div>
                           <div>
-                            <div className="text-2xl font-bold text-white">{stat.value}</div>
-                            <div className="text-xs text-slate-400">{stat.label}</div>
+                            <div className="text-2xl font-black text-slate-800">{stat.value}</div>
+                            <div className="text-xs text-slate-600 font-semibold">{stat.label}</div>
                           </div>
                         </div>
                       </CardContent>
@@ -199,95 +190,93 @@ const Editor = () => {
 
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-3 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
-              <div className="flex items-center gap-2 p-1.5 bg-slate-900/50 backdrop-blur-xl rounded-xl border border-slate-800">
+              <div className="flex items-center gap-2 p-1.5 bg-white/70 backdrop-blur-xl rounded-2xl border-2 border-blue-200/50 shadow-lg shadow-blue-200/30">
                 <Button
                   variant={view === "edit" ? "default" : "ghost"}
                   size="sm"
-                  className={`gap-2 ${view === "edit" ? "bg-gradient-to-r from-green-500 to-emerald-500" : "text-slate-400 hover:text-white"}`}
+                  className={`gap-2 ${view === "edit" ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-300/50" : "text-slate-600 hover:text-slate-800 hover:bg-blue-50"}`}
                   onClick={() => setView("edit")}
                 >
                   <Code2 className="w-4 h-4" />
-                  <span className="hidden sm:inline">Edit</span>
+                  <span className="hidden sm:inline font-bold">Edit</span>
                 </Button>
                 <Button
                   variant={view === "split" ? "default" : "ghost"}
                   size="sm"
-                  className={`gap-2 ${view === "split" ? "bg-gradient-to-r from-green-500 to-emerald-500" : "text-slate-400 hover:text-white"}`}
+                  className={`gap-2 ${view === "split" ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-300/50" : "text-slate-600 hover:text-slate-800 hover:bg-blue-50"}`}
                   onClick={() => setView("split")}
                 >
                   <FileText className="w-4 h-4" />
-                  <span className="hidden sm:inline">Split</span>
+                  <span className="hidden sm:inline font-bold">Split</span>
                 </Button>
                 <Button
                   variant={view === "preview" ? "default" : "ghost"}
                   size="sm"
-                  className={`gap-2 ${view === "preview" ? "bg-gradient-to-r from-green-500 to-emerald-500" : "text-slate-400 hover:text-white"}`}
+                  className={`gap-2 ${view === "preview" ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-300/50" : "text-slate-600 hover:text-slate-800 hover:bg-blue-50"}`}
                   onClick={() => setView("preview")}
                 >
                   <Eye className="w-4 h-4" />
-                  <span className="hidden sm:inline">Preview</span>
+                  <span className="hidden sm:inline font-bold">Preview</span>
                 </Button>
               </div>
 
               <div className="flex-1"></div>
 
               <div className="flex items-center gap-2">
-                {/* Scroll Sync Toggle (Option 2 placement) */}
                 <Button
                   onClick={() => setScrollSyncEnabled((v) => !v)}
                   size="sm"
-                  aria-pressed={scrollSyncEnabled}
                   title={scrollSyncEnabled ? "Disable scroll sync" : "Enable scroll sync"}
                   className={`gap-2 ${
                     scrollSyncEnabled
-                      ? "bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 shadow-lg shadow-green-500/30"
-                      : "bg-slate-900/50 border border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white backdrop-blur-xl"
+                      ? "bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white shadow-lg shadow-blue-300/50"
+                      : "bg-white/70 border-2 border-blue-200 text-slate-600 hover:bg-white hover:border-blue-300 backdrop-blur-xl shadow-lg shadow-blue-200/30"
                   }`}
                 >
                   <RefreshCw className="w-4 h-4" />
-                  {scrollSyncEnabled ? "Sync On" : "Sync Off"}
+                  <span className="font-bold">{scrollSyncEnabled ? "Sync On" : "Sync Off"}</span>
                 </Button>
 
                 <Button
                   onClick={handleReset}
                   variant="outline"
                   size="sm"
-                  className="gap-2 bg-slate-900/50 border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white backdrop-blur-xl"
+                  className="gap-2 bg-white/70 border-2 border-blue-200 text-slate-600 hover:bg-white hover:text-slate-800 hover:border-blue-300 backdrop-blur-xl shadow-lg shadow-blue-200/30"
                 >
                   <RefreshCw className="w-4 h-4" />
-                  <span className="hidden sm:inline">Reset</span>
+                  <span className="hidden sm:inline font-bold">Reset</span>
                 </Button>
                 <Button
                   onClick={handleShare}
                   variant="outline"
                   size="sm"
-                  className="gap-2 bg-slate-900/50 border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white backdrop-blur-xl"
+                  className="gap-2 bg-white/70 border-2 border-blue-200 text-slate-600 hover:bg-white hover:text-slate-800 hover:border-blue-300 backdrop-blur-xl shadow-lg shadow-blue-200/30"
                 >
                   <Share2 className="w-4 h-4" />
-                  <span className="hidden sm:inline">Share</span>
+                  <span className="hidden sm:inline font-bold">Share</span>
                 </Button>
                 <Button
                   onClick={handleCopy}
                   variant="outline"
                   size="sm"
-                  className="gap-2 bg-slate-900/50 border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white backdrop-blur-xl"
+                  className="gap-2 bg-white/70 border-2 border-blue-200 text-slate-600 hover:bg-white hover:text-slate-800 hover:border-blue-300 backdrop-blur-xl shadow-lg shadow-blue-200/30"
                 >
                   {copied ? (
                     <>
                       <Check className="w-4 h-4" />
-                      <span className="hidden sm:inline">Copied</span>
+                      <span className="hidden sm:inline font-bold">Copied</span>
                     </>
                   ) : (
                     <>
                       <Copy className="w-4 h-4" />
-                      <span className="hidden sm:inline">Copy</span>
+                      <span className="hidden sm:inline font-bold">Copy</span>
                     </>
                   )}
                 </Button>
                 <Button
                   onClick={handleDownload}
                   size="sm"
-                  className="gap-2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 shadow-lg shadow-green-500/30"
+                  className="gap-2 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white shadow-lg shadow-blue-300/50 font-bold"
                 >
                   <Download className="w-4 h-4" />
                   Download
@@ -297,32 +286,34 @@ const Editor = () => {
 
             {/* Editor Container */}
             <div className="relative animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
-              <div className="absolute -inset-4 bg-gradient-to-r from-green-500/20 via-emerald-500/20 to-teal-500/20 rounded-3xl blur-3xl opacity-50"></div>
-              {/* Fixed-height card so only inner content scrolls */}
-              <Card className="relative border-slate-800 bg-slate-900/50 backdrop-blur-xl rounded-3xl overflow-hidden shadow-2xl h-[calc(100vh-260px)] md:h-[calc(100vh-300px)] flex flex-col min-h-[520px]">
-                <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-emerald-500/5 to-transparent pointer-events-none"></div>
+              <div className="absolute -inset-4 bg-gradient-to-r from-blue-300/40 via-indigo-300/40 to-purple-300/40 rounded-3xl blur-3xl opacity-50"></div>
+              <Card className="relative border-2 border-blue-200/50 bg-white/80 backdrop-blur-xl rounded-3xl overflow-hidden shadow-2xl shadow-blue-200/50 h-[calc(100vh-260px)] md:h-[calc(100vh-300px)] flex flex-col min-h-[520px]">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-indigo-50/30 to-transparent pointer-events-none"></div>
                 
                 {/* EDIT VIEW */}
                 {view === "edit" && (
                   <div className="relative flex flex-col h-full min-h-0">
-                    <div className="px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm flex items-center gap-3 shrink-0">
+                    <div className="px-6 py-3 border-b-2 border-blue-200/50 bg-gradient-to-r from-blue-50 to-indigo-50 backdrop-blur-sm flex items-center gap-3 shrink-0">
                       <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-red-400 shadow-sm"></div>
+                        <div className="w-3 h-3 rounded-full bg-yellow-400 shadow-sm"></div>
+                        <div className="w-3 h-3 rounded-full bg-blue-400 shadow-sm"></div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Code2 className="w-4 h-4 text-green-400" />
-                        <span className="text-sm font-medium text-slate-300">README.md</span>
+                        <Code2 className="w-4 h-4 text-blue-600" />
+                        <span className="text-sm font-bold text-slate-700">README.md</span>
                       </div>
-                      <Badge className="ml-auto bg-green-500/20 text-green-300 border-green-500/30">
+                      <Badge className="ml-auto bg-blue-100 text-blue-700 border border-blue-300 font-bold">
                         Markdown
                       </Badge>
                     </div>
                     <div className="flex-1 overflow-y-auto p-6 min-h-0">
-                      <Textarea ref={editorTextRef} onScroll={handleEditorScrollSplit} value={content}
+                      <Textarea 
+                        ref={editorTextRef} 
+                        onScroll={handleEditorScrollSplit} 
+                        value={content}
                         onChange={(e) => setContent(e.target.value)}
-                        className="custom-scrollbar w-full h-full min-h-0 font-mono text-sm resize-none bg-slate-950/50 border-slate-700 text-white placeholder:text-slate-500 focus:border-green-500 transition-colors"
+                        className="custom-scrollbar w-full h-full min-h-0 font-mono text-sm resize-none bg-slate-50 border-2 border-blue-200 text-slate-800 placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-colors rounded-xl"
                         placeholder="Edit your README content here..."
                       />
                     </div>
@@ -332,22 +323,22 @@ const Editor = () => {
                 {/* PREVIEW VIEW */}
                 {view === "preview" && (
                   <div className="relative flex flex-col h-full min-h-0">
-                    <div className="px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm flex items-center gap-3 shrink-0">
+                    <div className="px-6 py-3 border-b-2 border-blue-200/50 bg-gradient-to-r from-blue-50 to-indigo-50 backdrop-blur-sm flex items-center gap-3 shrink-0">
                       <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                        <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-red-400 shadow-sm"></div>
+                        <div className="w-3 h-3 rounded-full bg-yellow-400 shadow-sm"></div>
+                        <div className="w-3 h-3 rounded-full bg-blue-400 shadow-sm"></div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Eye className="w-4 h-4 text-emerald-400" />
-                        <span className="text-sm font-medium text-slate-300">Preview</span>
+                        <Eye className="w-4 h-4 text-indigo-600" />
+                        <span className="text-sm font-bold text-slate-700">Preview</span>
                       </div>
-                      <Badge className="ml-auto bg-emerald-500/20 text-emerald-300 border-emerald-500/30">
+                      <Badge className="ml-auto bg-indigo-100 text-indigo-700 border border-indigo-300 font-bold">
                         Live
                       </Badge>
                     </div>
                     <div className="flex-1 overflow-y-auto p-8 min-h-0 custom-scrollbar">
-                      <div className="custom-scrollbar prose prose-invert prose-green max-w-none">
+                      <div className="custom-scrollbar prose prose-slate prose-blue max-w-none">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {content}
                         </ReactMarkdown>
@@ -360,16 +351,16 @@ const Editor = () => {
                 {view === "split" && (
                   <div className="relative grid md:grid-cols-2 grid-cols-1 h-full min-h-0">
                     {/* Editor Panel */}
-                    <div className="flex flex-col border-b md:border-b-0 md:border-r border-slate-800 min-h-0">
-                      <div className="px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm flex items-center gap-3 shrink-0">
+                    <div className="flex flex-col border-b-2 md:border-b-0 md:border-r-2 border-blue-200/50 min-h-0">
+                      <div className="px-6 py-3 border-b-2 border-blue-200/50 bg-gradient-to-r from-blue-50 to-indigo-50 backdrop-blur-sm flex items-center gap-3 shrink-0">
                         <div className="flex items-center gap-2">
-                          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                          <div className="w-3 h-3 rounded-full bg-red-400 shadow-sm"></div>
+                          <div className="w-3 h-3 rounded-full bg-yellow-400 shadow-sm"></div>
+                          <div className="w-3 h-3 rounded-full bg-blue-400 shadow-sm"></div>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Code2 className="w-4 h-4 text-green-400" />
-                          <span className="text-sm font-medium text-slate-300">Editor</span>
+                          <Code2 className="w-4 h-4 text-blue-600" />
+                          <span className="text-sm font-bold text-slate-700">Editor</span>
                         </div>
                       </div>
                       <div className="flex-1 overflow-y-auto p-6 min-h-0">
@@ -378,7 +369,7 @@ const Editor = () => {
                           onScroll={handleEditorScrollSplit}
                           value={content}
                           onChange={(e) => setContent(e.target.value)}
-                          className="custom-scrollbar w-full h-full min-h-0 font-mono text-sm resize-none bg-slate-950/50 border-slate-700 text-white placeholder:text-slate-500 focus:border-green-500 transition-colors"
+                          className="custom-scrollbar w-full h-full min-h-0 font-mono text-sm resize-none bg-slate-50 border-2 border-blue-200 text-slate-800 placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-colors rounded-xl"
                           placeholder="Edit your README content here..."
                         />
                       </div>
@@ -386,15 +377,15 @@ const Editor = () => {
 
                     {/* Preview Panel */}
                     <div className="flex flex-col min-h-0">
-                      <div className="px-6 py-3 border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm flex items-center gap-3 shrink-0">
+                      <div className="px-6 py-3 border-b-2 border-blue-200/50 bg-gradient-to-r from-blue-50 to-indigo-50 backdrop-blur-sm flex items-center gap-3 shrink-0">
                         <div className="flex items-center gap-2">
-                          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                          <div className="w-3 h-3 rounded-full bg-red-400 shadow-sm"></div>
+                          <div className="w-3 h-3 rounded-full bg-yellow-400 shadow-sm"></div>
+                          <div className="w-3 h-3 rounded-full bg-blue-400 shadow-sm"></div>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Eye className="w-4 h-4 text-emerald-400" />
-                          <span className="text-sm font-medium text-slate-300">Preview</span>
+                          <Eye className="w-4 h-4 text-indigo-600" />
+                          <span className="text-sm font-bold text-slate-700">Preview</span>
                         </div>
                       </div>
                       <div
@@ -402,7 +393,7 @@ const Editor = () => {
                         ref={previewScrollRef}
                         onScroll={handlePreviewScrollSplit}
                       >
-                        <div className="custom-scrollbar prose prose-invert prose-green max-w-none">
+                        <div className="custom-scrollbar prose prose-slate prose-blue max-w-none">
                           <ReactMarkdown remarkPlugins={[remarkGfm]}>
                             {content}
                           </ReactMarkdown>
@@ -416,37 +407,37 @@ const Editor = () => {
 
             {/* Tips Section */}
             <div className="grid md:grid-cols-3 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-400">
-              <Card className="border-slate-800 bg-slate-900/30 backdrop-blur-xl hover:bg-slate-900/50 transition-all group">
+              <Card className="border-2 border-blue-200/50 bg-white/60 backdrop-blur-xl hover:bg-white/90 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-200/50 transition-all group">
                 <CardHeader>
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <Zap className="w-6 h-6 text-blue-400" />
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center mb-3 group-hover:scale-110 group-hover:rotate-6 transition-transform shadow-lg shadow-blue-300/50">
+                    <Zap className="w-6 h-6 text-white" />
                   </div>
-                  <CardTitle className="text-lg text-white">Quick Tip</CardTitle>
-                  <CardDescription className="text-slate-400">
+                  <CardTitle className="text-lg text-slate-800 font-bold">Quick Tip</CardTitle>
+                  <CardDescription className="text-slate-600 font-medium">
                     Use Ctrl/Cmd + S to save your work locally
                   </CardDescription>
                 </CardHeader>
               </Card>
 
-              <Card className="border-slate-800 bg-slate-900/30 backdrop-blur-xl hover:bg-slate-900/50 transition-all group">
+              <Card className="border-2 border-blue-200/50 bg-white/60 backdrop-blur-xl hover:bg-white/90 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-200/50 transition-all group">
                 <CardHeader>
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <Sparkles className="w-6 h-6 text-purple-400" />
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center mb-3 group-hover:scale-110 group-hover:rotate-6 transition-transform shadow-lg shadow-purple-300/50">
+                    <Sparkles className="w-6 h-6 text-white" />
                   </div>
-                  <CardTitle className="text-lg text-white">Markdown Support</CardTitle>
-                  <CardDescription className="text-slate-400">
+                  <CardTitle className="text-lg text-slate-800 font-bold">Markdown Support</CardTitle>
+                  <CardDescription className="text-slate-600 font-medium">
                     Full GitHub Flavored Markdown (GFM) supported
                   </CardDescription>
                 </CardHeader>
               </Card>
 
-              <Card className="border-slate-800 bg-slate-900/30 backdrop-blur-xl hover:bg-slate-900/50 transition-all group">
+              <Card className="border-2 border-blue-200/50 bg-white/60 backdrop-blur-xl hover:bg-white/90 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-200/50 transition-all group">
                 <CardHeader>
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <FileText className="w-6 h-6 text-green-400" />
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center mb-3 group-hover:scale-110 group-hover:rotate-6 transition-transform shadow-lg shadow-blue-300/50">
+                    <FileText className="w-6 h-6 text-white" />
                   </div>
-                  <CardTitle className="text-lg text-white">Auto-Save</CardTitle>
-                  <CardDescription className="text-slate-400">
+                  <CardTitle className="text-lg text-slate-800 font-bold">Auto-Save</CardTitle>
+                  <CardDescription className="text-slate-600 font-medium">
                     Your changes are preserved in the URL
                   </CardDescription>
                 </CardHeader>
@@ -457,31 +448,65 @@ const Editor = () => {
       </div>
 
       <style>{`
+        @keyframes float {
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          33% { transform: translate(30px, -30px) rotate(5deg); }
+          66% { transform: translate(-20px, 20px) rotate(-5deg); }
+        }
+        @keyframes float-delayed {
+          0%, 100% { transform: translate(0, 0) rotate(0deg); }
+          33% { transform: translate(-40px, 30px) rotate(-5deg); }
+          66% { transform: translate(30px, -20px) rotate(5deg); }
+        }
+        .animate-float {
+          animation: float 20s ease-in-out infinite;
+        }
+        .animate-float-delayed {
+          animation: float-delayed 25s ease-in-out infinite;
+        }
+        
         .custom-scrollbar::-webkit-scrollbar {
           width: 12px !important;
           height: 12px !important;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(20, 83, 45, 0.7) !important;
+          background: rgba(219, 234, 254, 0.5) !important;
           border-radius: 10px !important;
+          border: 2px solid rgba(147, 197, 253, 0.3) !important;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(16, 185, 129, 0.8) !important;
+          background: linear-gradient(to bottom, rgb(59, 130, 246), rgb(99, 102, 241)) !important;
           border-radius: 10px !important;
-          border: 3px solid rgba(20, 83, 45, 0.7) !important; /* Adds a border to the thumb matching track color */
+          border: 3px solid rgba(219, 234, 254, 0.5) !important;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(16, 185, 129, 1) !important; /* Fully opaque emerald green on hover */
+          background: linear-gradient(to bottom, rgb(37, 99, 235), rgb(79, 70, 229)) !important;
         }
         
-        .prose-green {
-          --tw-prose-body: rgb(226, 232, 240);
-          --tw-prose-headings: rgb(255, 255, 255);
-          --tw-prose-links: rgb(52, 211, 153);
-          --tw-prose-bold: rgb(255, 255, 255);
-          --tw-prose-code: rgb(167, 243, 208);
-          --tw-prose-pre-bg: rgb(15, 23, 42);
-          --tw-prose-quotes: rgb(203, 213, 225);
+        .prose-blue {
+          --tw-prose-body: rgb(71, 85, 105);
+          --tw-prose-headings: rgb(30, 41, 59);
+          --tw-prose-links: rgb(59, 130, 246);
+          --tw-prose-bold: rgb(30, 41, 59);
+          --tw-prose-code: rgb(37, 99, 235);
+          --tw-prose-pre-bg: rgb(248, 250, 252);
+          --tw-prose-quotes: rgb(100, 116, 139);
+          --tw-prose-counters: rgb(100, 116, 139);
+          --tw-prose-bullets: rgb(203, 213, 225);
+        }
+        
+        .prose-blue h1, .prose-blue h2, .prose-blue h3, .prose-blue h4, .prose-blue h5, .prose-blue h6 {
+          color: rgb(30, 41, 59) !important;
+          font-weight: 800 !important;
+        }
+        
+        .prose-blue p {
+          color: rgb(71, 85, 105) !important;
+        }
+        
+        .prose-blue strong {
+          color: rgb(30, 41, 59) !important;
+          font-weight: 700 !important;
         }
       `}</style>
     </div>
