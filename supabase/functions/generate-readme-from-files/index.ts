@@ -43,7 +43,15 @@ serve(async (req) => {
   }
 });
 
-async function callAIWithFailover(prompt: string): Promise<string> {
+// Sleep utility for rate limit handling
+async function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function callAIWithFailover(prompt: string, retryCount = 0): Promise<string> {
+  const maxRetries = 3;
+  const baseDelay = 2000; // 2 seconds
+
   // Try Gemini first
   try {
     const geminiKey = Deno.env.get("GEMINI_API_KEY");
@@ -64,6 +72,13 @@ async function callAIWithFailover(prompt: string): Promise<string> {
       }
     );
 
+    if (response.status === 429 && retryCount < maxRetries) {
+      const delay = baseDelay * Math.pow(2, retryCount);
+      console.log(`Gemini rate limited, retrying in ${delay}ms (attempt ${retryCount + 1}/${maxRetries})`);
+      await sleep(delay);
+      return callAIWithFailover(prompt, retryCount + 1);
+    }
+
     if (!response.ok) throw new Error(`Gemini API error: ${response.status}`);
 
     const data = await response.json();
@@ -78,24 +93,43 @@ async function callAIWithFailover(prompt: string): Promise<string> {
     const groqKey = Deno.env.get("GROQ_API_KEY");
     if (!groqKey) throw new Error("Groq API key not configured");
 
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${groqKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.7,
-        max_tokens: 8192,
-      }),
-    });
+    try {
+      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${groqKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+          messages: [{ role: "user", content: prompt }],
+          temperature: 0.7,
+          max_tokens: 8192,
+        }),
+      });
 
-    if (!response.ok) throw new Error(`Groq API error: ${response.status}`);
+      if (response.status === 429 && retryCount < maxRetries) {
+        const delay = baseDelay * Math.pow(2, retryCount);
+        console.log(`Groq rate limited, retrying in ${delay}ms (attempt ${retryCount + 1}/${maxRetries})`);
+        await sleep(delay);
+        return callAIWithFailover(prompt, retryCount + 1);
+      }
 
-    const data = await response.json();
-    return data.choices[0].message.content;
+      if (!response.ok) {
+        if (response.status === 429) {
+          throw new Error("Rate limit exceeded on both Gemini and Groq. Please try again in a few moments.");
+        }
+        throw new Error(`Groq API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.choices[0].message.content;
+    } catch (groqError) {
+      if (groqError instanceof Error && groqError.message.includes("Rate limit")) {
+        throw groqError;
+      }
+      throw new Error(`Both AI providers failed: ${error instanceof Error ? error.message : "Unknown error"}`);
+    }
   }
 }
 
@@ -132,9 +166,17 @@ Return ONLY a JSON array of file paths:
 
 async function summarizeFiles(files: any[]): Promise<any[]> {
   const summaries = [];
+  // Reduce to 5 files to avoid rate limits
+  const filesToSummarize = files.slice(0, 5);
 
-  for (const file of files.slice(0, 10)) {
+  for (let i = 0; i < filesToSummarize.length; i++) {
+    const file = filesToSummarize[i];
     try {
+      // Add delay between calls to avoid rate limits (1 second between calls)
+      if (i > 0) {
+        await sleep(1000);
+      }
+
       const prompt = `Briefly summarize this file's purpose and key functionality (2-3 sentences):
 
 File: ${file.path}
@@ -143,8 +185,10 @@ ${file.content.slice(0, 10000)}`;
 
       const summary = await callAIWithFailover(prompt);
       summaries.push({ path: file.path, summary });
+      console.log(`Successfully summarized ${file.path}`);
     } catch (error) {
       console.error(`Failed to summarize ${file.path}:`, error);
+      // Continue with other files even if one fails
     }
   }
 
