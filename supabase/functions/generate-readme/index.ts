@@ -280,7 +280,7 @@ Generate a README with these sections:
 8. License Information
 
 Use proper markdown formatting, emojis for visual appeal, and make it developer-friendly.
-End with: "Generated with GitMe – https://readme-generator-phi.vercel.app"`;
+End with: "Generated with GitRead – https://readme-generator-phi.vercel.app"`;
 
   return await callAIWithFailover(prompt);
 }

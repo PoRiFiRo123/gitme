@@ -8,7 +8,7 @@ export const Navbar = () => {
   useEffect(() => {
     async function fetchStars() {
       try {
-        const starCount = await getRepoStars("PoRiFiRo123", "gitme");
+        const starCount = await getRepoStars("PoRiFiRo123", "GitRead");
         setStars(starCount);
       } catch (error) {
         console.error("Failed to fetch GitHub stars:", error);
@@ -48,7 +48,7 @@ export const Navbar = () => {
                   <div className="space-y-0.5">
                     <div className="flex items-center gap-2">
                       <h1 className="text-2xl font-black bg-gradient-to-r from-slate-800 via-slate-700 to-slate-600 bg-clip-text text-transparent tracking-tight">
-                        GitMe
+                        GitRead
                       </h1>
                       <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 border border-blue-300/50 shadow-sm">
                         <Sparkles className="w-3 h-3 text-blue-600 animate-sparkle" />
@@ -84,7 +84,7 @@ export const Navbar = () => {
 
                 {/* GitHub Button */}
                 <a
-                  href="https://github.com/PoRiFiRo123/gitme"
+                  href="https://github.com/PoRiFiRo123/GitRead"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative overflow-hidden px-5 py-2.5 rounded-2xl backdrop-blur-sm bg-gradient-to-r from-slate-50 to-blue-50 border-2 border-blue-200/50 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-200/50 transition-all duration-300"
