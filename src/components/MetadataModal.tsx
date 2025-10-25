@@ -269,25 +269,6 @@ export const MetadataModal = ({ open, onClose, onSubmit, repoUrl }: MetadataModa
           </div>
         </div>
       </DialogContent>
-
-      <style>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(219, 234, 254, 0.5);
-          border-radius: 10px;
-          border: 2px solid rgba(147, 197, 253, 0.3);
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: linear-gradient(to bottom, rgb(59, 130, 246), rgb(99, 102, 241));
-          border-radius: 10px;
-          border: 2px solid rgba(219, 234, 254, 0.5);
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(to bottom, rgb(37, 99, 235), rgb(79, 70, 229));
-        }
-      `}</style>
     </Dialog>
   );
 };

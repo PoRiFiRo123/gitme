@@ -446,69 +446,6 @@ const Editor = () => {
           </div>
         </main>
       </div>
-
-      <style>{`
-        @keyframes float {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          33% { transform: translate(30px, -30px) rotate(5deg); }
-          66% { transform: translate(-20px, 20px) rotate(-5deg); }
-        }
-        @keyframes float-delayed {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          33% { transform: translate(-40px, 30px) rotate(-5deg); }
-          66% { transform: translate(30px, -20px) rotate(5deg); }
-        }
-        .animate-float {
-          animation: float 20s ease-in-out infinite;
-        }
-        .animate-float-delayed {
-          animation: float-delayed 25s ease-in-out infinite;
-        }
-        
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 12px !important;
-          height: 12px !important;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(219, 234, 254, 0.5) !important;
-          border-radius: 10px !important;
-          border: 2px solid rgba(147, 197, 253, 0.3) !important;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: linear-gradient(to bottom, rgb(59, 130, 246), rgb(99, 102, 241)) !important;
-          border-radius: 10px !important;
-          border: 3px solid rgba(219, 234, 254, 0.5) !important;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(to bottom, rgb(37, 99, 235), rgb(79, 70, 229)) !important;
-        }
-        
-        .prose-blue {
-          --tw-prose-body: rgb(71, 85, 105);
-          --tw-prose-headings: rgb(30, 41, 59);
-          --tw-prose-links: rgb(59, 130, 246);
-          --tw-prose-bold: rgb(30, 41, 59);
-          --tw-prose-code: rgb(37, 99, 235);
-          --tw-prose-pre-bg: rgb(248, 250, 252);
-          --tw-prose-quotes: rgb(100, 116, 139);
-          --tw-prose-counters: rgb(100, 116, 139);
-          --tw-prose-bullets: rgb(203, 213, 225);
-        }
-        
-        .prose-blue h1, .prose-blue h2, .prose-blue h3, .prose-blue h4, .prose-blue h5, .prose-blue h6 {
-          color: rgb(30, 41, 59) !important;
-          font-weight: 800 !important;
-        }
-        
-        .prose-blue p {
-          color: rgb(71, 85, 105) !important;
-        }
-        
-        .prose-blue strong {
-          color: rgb(30, 41, 59) !important;
-          font-weight: 700 !important;
-        }
-      `}</style>
     </div>
   );
 };

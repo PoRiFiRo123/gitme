@@ -312,49 +312,6 @@ const Processing = () => {
           </div>
         </main>
       </div>
-
-      <style>{`
-        @keyframes float {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          33% { transform: translate(30px, -30px) rotate(5deg); }
-          66% { transform: translate(-20px, 20px) rotate(-5deg); }
-        }
-        @keyframes float-delayed {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          33% { transform: translate(-40px, 30px) rotate(-5deg); }
-          66% { transform: translate(30px, -20px) rotate(5deg); }
-        }
-        @keyframes float-slow {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          50% { transform: translate(20px, 20px) rotate(3deg); }
-        }
-        .animate-float {
-          animation: float 20s ease-in-out infinite;
-        }
-        .animate-float-delayed {
-          animation: float-delayed 25s ease-in-out infinite;
-        }
-        .animate-float-slow {
-          animation: float-slow 30s ease-in-out infinite;
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 12px !important;
-          height: 12px !important;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(219, 234, 254, 0.5) !important;
-          border-radius: 10px !important;
-          border: 2px solid rgba(147, 197, 253, 0.3) !important;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: linear-gradient(to bottom, rgb(59, 130, 246), rgb(99, 102, 241)) !important;
-          border-radius: 10px !important;
-          border: 3px solid rgba(219, 234, 254, 0.5) !important;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(to bottom, rgb(37, 99, 235), rgb(79, 70, 229)) !important;
-        }
-      `}</style>
     </div>
   );
 };
