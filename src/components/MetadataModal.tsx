@@ -270,7 +270,7 @@ export const MetadataModal = ({ open, onClose, onSubmit, repoUrl }: MetadataModa
         </div>
       </DialogContent>
 
-      <style jsx>{`
+      <style>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 8px;
         }

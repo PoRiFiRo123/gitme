@@ -27,71 +27,43 @@ const Processing = () => {
 
     const processRepo = async () => {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-readme`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              repoUrl,
-              metadata: metadata ? JSON.parse(metadata) : {},
-            }),
-          }
-        );
+        // Dynamically import utilities
+        const { getFullRepoFiles } = await import("@/utils/githubApiClient");
+        const { generateReadmeWithAI } = await import("@/models/aiClient");
 
-        if (!response.ok) {
-          throw new Error("Failed to process repository");
-        }
-
-        const reader = response.body?.getReader();
-        const decoder = new TextDecoder();
-
-        if (!reader) {
-          throw new Error("No response body");
-        }
-
-        let buffer = "";
         let logCount = 0;
         
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
+        // Step 1: Fetch repository files from GitHub
+        const repoData = await getFullRepoFiles(repoUrl, (message) => {
+          logCount++;
+          setProgress(Math.min(40, logCount * 8));
+          setCurrentStep(message);
+          setLogs((prev) => [...prev, { message, type: "info", timestamp: new Date() }]);
+        });
 
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split("\n");
-          buffer = lines.pop() || "";
+        setProgress(50);
+        setCurrentStep("Repository data fetched successfully");
 
-          for (const line of lines) {
-            if (line.startsWith("data: ")) {
-              const data = JSON.parse(line.slice(6));
-              
-              if (data.type === "log") {
-                logCount++;
-                setProgress(Math.min(90, logCount * 15));
-                setCurrentStep(data.message);
-                setLogs((prev) => [
-                  ...prev,
-                  {
-                    message: data.message,
-                    type: data.logType || "info",
-                    timestamp: new Date(),
-                  },
-                ]);
-              } else if (data.type === "complete") {
-                setProgress(100);
-                setCurrentStep("Complete!");
-                setIsProcessing(false);
-                setTimeout(() => {
-                  navigate(`/editor?content=${encodeURIComponent(data.readme)}`);
-                }, 500);
-              } else if (data.type === "error") {
-                throw new Error(data.message);
-              }
-            }
-          }
-        }
+        // Step 2: Generate README using AI
+        const readme = await generateReadmeWithAI({
+          files: repoData.files,
+          repoInfo: repoData.repoInfo,
+          metadata: metadata ? JSON.parse(metadata) : {},
+          onLog: (message, type = "info") => {
+            logCount++;
+            setProgress(Math.min(90, 50 + logCount * 10));
+            setCurrentStep(message);
+            setLogs((prev) => [...prev, { message, type, timestamp: new Date() }]);
+          },
+        });
+
+        // Step 3: Navigate to editor with generated README
+        setProgress(100);
+        setCurrentStep("Complete!");
+        setIsProcessing(false);
+        setTimeout(() => {
+          navigate(`/editor?content=${encodeURIComponent(readme)}`);
+        }, 500);
       } catch (error) {
         console.error("Processing error:", error);
         setIsProcessing(false);

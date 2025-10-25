@@ -2,3 +2,6 @@ project_id = "biyhrxrumyvwtwonlbwq"
 
 [functions.generate-readme]
 verify_jwt = false
+
+[functions.generate-readme-from-files]
+verify_jwt = false
