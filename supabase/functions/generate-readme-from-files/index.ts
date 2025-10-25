@@ -201,11 +201,24 @@ async function generateReadme(
   metadata: any,
   allFiles: any[]
 ): Promise<string> {
-  const fileTree = allFiles.map((f) => f.path).slice(0, 30).join("\n");
+  const fileTree = allFiles.map((f) => f.path).slice(0, 50).join("\n");
+  const fileContents = JSON.stringify(
+    allFiles.slice(0, 20).map(f => ({ path: f.path, content: f.content.slice(0, 5000) })),
+    null,
+    2
+  );
 
-  const prompt = `Generate a comprehensive, professional README.md for this GitHub repository.
+  const prompt = `You are an expert software architect and technical documentation specialist. You will be given the full file structure and file contents of a GitHub repository, extracted using the GitHub API.
 
-REPOSITORY INFORMATION:
+Your task is to:
+1. **Analyze the file tree and contents**
+2. **Automatically select only the important files that define the core functionality**
+3. **Generate concise, technical summaries of these files**
+4. **Produce a complete, professional, well-structured README.md**
+
+---
+
+### 📂 Repository Information:
 - Name: ${repoInfo.name}
 - Description: ${repoInfo.description || "No description"}
 - Language: ${repoInfo.language}
@@ -216,24 +229,70 @@ ${metadata.features ? `\nKey Features: ${metadata.features}` : ""}
 ${metadata.license ? `\nLicense: ${metadata.license}` : ""}
 ${metadata.additionalContext ? `\nAdditional Context: ${metadata.additionalContext}` : ""}
 
-FILE STRUCTURE (sample):
+### 📂 Repository File Tree:
 ${fileTree}
 
-KEY FILES ANALYSIS:
-${summaries.map((f) => `${f.path}:\n${f.summary}`).join("\n\n")}
+### 📄 File Contents (only for relevant files, formatted as a list of objects):
+${fileContents}
 
-Generate a README with these sections:
-1. Project Title and Description
-2. Key Features (bullet points)
-3. Installation Instructions
-4. Usage Examples
-5. Project Structure
-6. Technologies Used
-7. Contributing Guidelines
-8. License Information
+---
 
-Use proper markdown formatting, emojis for visual appeal, and make it developer-friendly.
-End with: "Generated with GitMe – https://readme-generator-phi.vercel.app"`;
+### 🧠 Step 1: File Selection Criteria (apply automatically)
+Select ONLY the files that are necessary for understanding:
+- Main application entry points
+- Core logic or services
+- API routes or controllers
+- Configuration files (package.json, next.config.js, vite.config.js, etc.)
+- Database models or schema files
+- Utility or helper logic
+
+EXCLUDE files such as:
+- Tests, CSS, images, minified files, build outputs, readme.md (existing)
+
+You MUST internally decide the important files before generating summaries.
+
+---
+
+### 🧠 Step 2: File Summaries (internal step, not separate output to user)
+For each selected file:
+- Summarize its purpose
+- Identify core functions, classes, logic
+- Explain how it connects to rest of the project
+- Use concise professional technical language
+
+---
+
+### 🧠 Step 3: Generate README.md (final output to user)
+Your output MUST be a **plain markdown README.md file**, starting with \`#\` as the first character.
+
+### ✅ README Structure Requirements:
+1. **Project Title & Overview**
+2. **Features**
+3. **Tech Stack**
+4. **Installation & Setup**
+5. **Usage**
+6. **Project Structure** (as a tree diagram based on the file tree)
+7. **Screenshots section** (leave blank placeholders)
+8. **Contributing**
+9. **License**
+10. **Contact**
+11. **Thanks + Attribution**
+   - Include the line at the end:  
+     _"This README was generated using [GitMe](https://readme-generator-phi.vercel.app)"_
+
+---
+
+### 🎨 Style Rules:
+- Use emojis where appropriate (🔥, 🚀, 🛠️, 📦)
+- Use bullet lists and code blocks for clarity
+- Do NOT wrap the final output in triple backticks
+- Output **must be valid markdown only**
+- Be thorough, accurate, and developer-focused
+
+---
+
+### 🔔 Final Instruction:
+Generate the final README.md **directly** based on the file contents and inferred project purpose. Do not output any explanations or meta commentary—**only return the final README content.**`;
 
   return await callAIWithFailover(prompt);
 }
