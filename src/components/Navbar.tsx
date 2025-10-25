@@ -1,7 +1,23 @@
 import { Github, BookOpen, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { getRepoStars } from "@/utils/githubApiClient";
 
 export const Navbar = () => {
+  const [stars, setStars] = useState<number | null>(null);
+
+  useEffect(() => {
+    async function fetchStars() {
+      try {
+        const starCount = await getRepoStars("PoRiFiRo123", "gitme");
+        setStars(starCount);
+      } catch (error) {
+        console.error("Failed to fetch GitHub stars:", error);
+      }
+    }
+
+    fetchStars();
+  }, []);
+
   return (
     <div className="fixed top-0 left-0 right-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
       <nav className="max-w-7xl mx-auto">
@@ -79,6 +95,11 @@ export const Navbar = () => {
                     <span className="text-sm font-medium text-slate-400 group-hover:text-white transition-colors hidden sm:inline">
                       Star on GitHub
                     </span>
+                    {stars !== null && (
+                      <span className="text-sm font-medium text-slate-400 group-hover:text-white transition-colors">
+                        ({stars})
+                      </span>
+                    )}
                   </div>
                 </a>
               </div>

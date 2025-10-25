@@ -52,6 +52,14 @@ async function fetchRepoInfo(owner: string, repo: string) {
 }
 
 /**
+ * Fetch repository stars from GitHub API
+ */
+export async function getRepoStars(owner: string, repo: string): Promise<number> {
+  const repoInfo = await fetchRepoInfo(owner, repo);
+  return repoInfo.stargazers_count;
+}
+
+/**
  * Fetch full repository file tree
  */
 async function fetchRepoTree(owner: string, repo: string, branch: string) {
