@@ -267,16 +267,28 @@ Your output MUST be a **plain markdown README.md file**, starting with \`#\` as 
 
 ### ✅ README Structure Requirements:
 1. **Project Title & Overview**
-2. **Features**
-3. **Tech Stack**
-4. **Installation & Setup**
-5. **Usage**
+2. **Features** (bullet points with emojis)
+3. **Tech Stack** (use a markdown table format with categories like Frontend, Backend, Database, etc.)
+   Example:
+   | Category | Technologies |
+   |----------|-------------|
+   | Frontend | React, TypeScript |
+   | Backend  | Node.js, Express |
+   | Database | PostgreSQL |
+4. **Installation & Setup** (detailed step-by-step instructions including prerequisites, environment setup, and running the project)
+   - Include prerequisites (Node.js version, system requirements)
+   - Environment variables setup if needed
+   - Step-by-step installation commands
+   - How to run in development mode
+   - How to build for production
+5. **Usage** (with code examples and explanations)
 6. **Project Structure** (as a tree diagram based on the file tree)
-7. **Screenshots section** (leave blank placeholders)
-8. **Contributing**
-9. **License**
-10. **Contact**
-11. **Thanks + Attribution**
+7. **API Documentation** (if applicable, with endpoints and examples)
+8. **Screenshots section** (leave blank placeholders with descriptive text)
+9. **Contributing** (guidelines for contributors)
+10. **License**
+11. **Contact** (author/maintainer info if available)
+12. **Thanks + Attribution**
    - Include the line at the end:  
      _"This README was generated using [GitMe](https://readme-generator-phi.vercel.app)"_
 

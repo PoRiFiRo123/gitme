@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Copy, Download, Check } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import ReactMarkdown from "react-markdown";
@@ -73,28 +74,32 @@ export const MarkdownEditor = ({ initialContent }: MarkdownEditorProps) => {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card className="p-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-[calc(100vh-12rem)]">
+        <Card className="p-4 flex flex-col">
           <h3 className="text-sm font-semibold mb-3 text-muted-foreground">
             MARKDOWN EDITOR
           </h3>
-          <Textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="min-h-[600px] font-mono text-sm resize-none bg-code-bg"
-            placeholder="Edit your README content here..."
-          />
+          <ScrollArea className="flex-1 h-full">
+            <Textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="min-h-full font-mono text-sm resize-none bg-code-bg border-0 focus-visible:ring-0"
+              placeholder="Edit your README content here..."
+            />
+          </ScrollArea>
         </Card>
 
-        <Card className="p-4">
+        <Card className="p-4 flex flex-col">
           <h3 className="text-sm font-semibold mb-3 text-muted-foreground">
             PREVIEW
           </h3>
-          <div className="min-h-[600px] prose prose-invert prose-sm max-w-none overflow-auto">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {content}
-            </ReactMarkdown>
-          </div>
+          <ScrollArea className="flex-1 h-full">
+            <div className="prose prose-invert prose-sm max-w-none pr-4">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {content}
+              </ReactMarkdown>
+            </div>
+          </ScrollArea>
         </Card>
       </div>
     </div>
