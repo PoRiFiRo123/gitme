@@ -1,4 +1,4 @@
-import { Github, BookOpen, Sparkles, Star } from "lucide-react";
+import { Github, Sparkles, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getRepoStars } from "@/utils/githubApiClient";
 
@@ -35,13 +35,10 @@ export const Navbar = () => {
             <div className="flex items-center justify-between">
               {/* Logo Section */}
               <div className="flex items-center gap-4">
-                <div className="flex items-center gap-3 group cursor-pointer">
-                  {/* Animated Logo Icon */}
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl blur-xl opacity-40 group-hover:opacity-60 transition-all duration-300"></div>
-                    <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-500 flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-xl shadow-blue-300/50">
-                      <BookOpen className="w-6 h-6 text-white drop-shadow-lg" />
-                    </div>
+                <a href="/" className="flex items-center gap-3 group cursor-pointer">
+                  {/* Logo Image with background styling */}
+                  <div className="relative w-12 h-12 rounded-2xl bg-indigo-100 flex items-center justify-center shadow-md">
+                    <img src="/logo.svg" alt="GitRead Logo" className="w-6 h-6" style={{ filter: 'invert(1)' }} />
                   </div>
                   
                   {/* Brand Text */}
@@ -61,7 +58,7 @@ export const Navbar = () => {
                       README Generator
                     </p>
                   </div>
-                </div>
+                </a>
               </div>
               
               {/* Actions Section */}
