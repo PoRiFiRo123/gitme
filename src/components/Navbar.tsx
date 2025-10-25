@@ -55,12 +55,12 @@ export const Navbar = () => {
                   >
                     Home
                   </a>
-                  <a 
+                  {/* <a 
                     href="/docs"
                     className="text-sm font-medium text-slate-400 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-white/5"
                   >
                     Docs
-                  </a>
+                  </a> */}
                 </div>
 
                 {/* GitHub Button */}
