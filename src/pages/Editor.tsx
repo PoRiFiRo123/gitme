@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Copy, Download, Check, Code2, Eye, FileText, Sparkles, Zap, RefreshCw, Share2 } from "lucide-react";
+import { Footer } from "@/components/Footer";
 import { toast } from "@/hooks/use-toast";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -445,6 +446,8 @@ const Editor = () => {
             </div>
           </div>
         </main>
+        
+        <Footer />
       </div>
     </div>
   );

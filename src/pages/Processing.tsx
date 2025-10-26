@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Loader2, CheckCircle2, FileText, Code2, Sparkles, Zap, AlertCircle } from "lucide-react";
+import { Footer } from "@/components/Footer";
 import { toast } from "@/hooks/use-toast";
 
 const Processing = () => {
@@ -311,6 +312,8 @@ const Processing = () => {
             </div>
           </div>
         </main>
+        
+        <Footer />
       </div>
     </div>
   );

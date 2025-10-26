@@ -290,7 +290,7 @@ Your output MUST be a **plain markdown README.md file**, starting with \`#\` as 
 11. **Contact** (author/maintainer info if available)
 12. **Thanks + Attribution**
    - Include the line at the end:  
-     _"This README was generated using [GitRead](https://readme-generator-phi.vercel.app)"_
+     _"This README was generated using [GitRead](https://git-read.vercel.app)"_
 
 ---
 
