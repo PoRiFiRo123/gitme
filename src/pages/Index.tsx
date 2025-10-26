@@ -233,13 +233,13 @@ const Index = () => {
                 </h2>
               </div>
 
-              <div className="max-w-5xl mx-auto">
-                <div className="grid md:grid-cols-3 gap-12 md:gap-8 items-start">
+              <div className="max-w-6xl mx-auto">
+                <div className="flex items-center justify-between gap-6">
                   {/* Step 1 */}
-                  <div className="text-center space-y-4">
-                    <div className="flex justify-center mb-2">
-                      <div className="w-20 h-20 rounded-full bg-pink-50 flex items-center justify-center">
-                        <Github className="w-10 h-10 text-rose-500" />
+                  <div className="flex-1 text-center space-y-4">
+                    <div className="flex justify-center mb-4">
+                      <div className="w-24 h-24 rounded-full bg-gradient-to-br from-pink-50 to-rose-50 flex items-center justify-center border border-pink-100">
+                        <Github className="w-12 h-12 text-rose-500" />
                       </div>
                     </div>
                     <h3 className="text-xl font-bold text-slate-900">Paste Your Repository Link</h3>
@@ -248,34 +248,34 @@ const Index = () => {
                     </p>
                   </div>
 
-                  {/* Arrow */}
-                  <div className="hidden md:flex items-center justify-center -mt-8">
+                  {/* Arrow 1 */}
+                  <div className="flex items-center justify-center pt-6">
                     <ArrowRight className="w-8 h-8 text-pink-300" />
                   </div>
 
                   {/* Step 2 */}
-                  <div className="text-center space-y-4">
-                    <div className="flex justify-center mb-2">
-                      <div className="w-20 h-20 rounded-full bg-pink-50 flex items-center justify-center">
-                        <Sparkles className="w-10 h-10 text-rose-500" />
+                  <div className="flex-1 text-center space-y-4">
+                    <div className="flex justify-center mb-4">
+                      <div className="w-24 h-24 rounded-full bg-gradient-to-br from-pink-50 to-rose-50 flex items-center justify-center border border-pink-100">
+                        <Sparkles className="w-12 h-12 text-rose-500" />
                       </div>
                     </div>
                     <h3 className="text-xl font-bold text-slate-900">Let AI Analyze & Generate</h3>
                     <p className="text-slate-600 text-sm">
-                      Our AI reads your codebase, then crafts a tailored README.md.
+                      Our AI reads your codebase, then crafts a tailored README.md
                     </p>
                   </div>
 
-                  {/* Arrow */}
-                  <div className="hidden md:flex items-center justify-center -mt-8">
+                  {/* Arrow 2 */}
+                  <div className="flex items-center justify-center pt-6">
                     <ArrowRight className="w-8 h-8 text-pink-300" />
                   </div>
 
                   {/* Step 3 */}
-                  <div className="text-center space-y-4">
-                    <div className="flex justify-center mb-2">
-                      <div className="w-20 h-20 rounded-full bg-pink-50 flex items-center justify-center">
-                        <FileText className="w-10 h-10 text-rose-500" />
+                  <div className="flex-1 text-center space-y-4">
+                    <div className="flex justify-center mb-4">
+                      <div className="w-24 h-24 rounded-full bg-gradient-to-br from-pink-50 to-rose-50 flex items-center justify-center border border-pink-100">
+                        <FileText className="w-12 h-12 text-rose-500" />
                       </div>
                     </div>
                     <h3 className="text-xl font-bold text-slate-900">Get Your Polished README</h3>
