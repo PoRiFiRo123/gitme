@@ -17,9 +17,10 @@ const Index = () => {
   const [isValidating, setIsValidating] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  const validateGitHubUrl = (url: string): boolean => {
+  const validateRepoUrl = (url: string): boolean => {
     const githubRegex = /^https?:\/\/(www\.)?github\.com\/[\w-]+\/[\w.-]+\/?$/;
-    return githubRegex.test(url);
+    const gitlabRegex = /^https?:\/\/(www\.)?gitlab\.com\/[\w-]+\/[\w.-]+\/?$/;
+    return githubRegex.test(url) || gitlabRegex.test(url);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -28,16 +29,16 @@ const Index = () => {
     if (!repoUrl.trim()) {
       toast({
         title: "URL Required",
-        description: "Please enter a GitHub repository URL.",
+        description: "Please enter a repository URL.",
         variant: "destructive",
       });
       return;
     }
 
-    if (!validateGitHubUrl(repoUrl)) {
+    if (!validateRepoUrl(repoUrl)) {
       toast({
         title: "Invalid URL",
-        description: "Please enter a valid public GitHub repository URL.",
+        description: "Please enter a valid public GitHub or GitLab repository URL.",
         variant: "destructive",
       });
       return;
@@ -153,7 +154,7 @@ const Index = () => {
               </h1>
               
               <p className="text-xl md:text-2xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-medium">
-                Transform any GitHub repository into comprehensive documentation using{" "}
+                Transform any GitHub or GitLab repository into comprehensive documentation using{" "}
                 <span className="text-blue-600 font-bold">advanced AI</span>.
                 Multi-model reliability ensures perfect results every time.
               </p>
