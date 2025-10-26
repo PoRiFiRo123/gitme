@@ -225,77 +225,63 @@ const Index = () => {
               ))}
             </div>
 
-            {/* Workflow Timeline Section */}
+            {/* How It Works Section */}
             <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-350">
-              <div className="text-center space-y-4">
-                <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+              <div className="text-center">
+                <h2 className="text-4xl md:text-5xl font-black text-slate-800">
                   How It Works
                 </h2>
-                <p className="text-xl text-slate-600 max-w-2xl mx-auto font-medium">
-                  Generate professional READMEs in three simple steps
-                </p>
               </div>
 
-              <div className="relative max-w-5xl mx-auto">
-                {/* Connecting Line */}
-                <div className="hidden md:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blue-300 via-indigo-300 to-purple-300 -translate-y-1/2 rounded-full"></div>
-                
-                <div className="grid md:grid-cols-3 gap-8 relative">
+              <div className="max-w-5xl mx-auto">
+                <div className="grid md:grid-cols-3 gap-12 md:gap-8 items-start">
                   {/* Step 1 */}
-                  <div className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-3xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity"></div>
-                    <div className="relative bg-white/80 backdrop-blur-xl border-2 border-blue-200 rounded-3xl p-8 space-y-4 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-200/50 transition-all hover:-translate-y-2">
-                      <div className="flex justify-center">
-                        <div className="relative">
-                          <div className="absolute inset-0 bg-blue-400 rounded-full blur-xl opacity-50"></div>
-                          <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-2xl shadow-blue-300/50">
-                            <span className="text-3xl font-black text-white">1</span>
-                          </div>
-                        </div>
+                  <div className="text-center space-y-4">
+                    <div className="flex justify-center mb-2">
+                      <div className="w-20 h-20 rounded-full bg-pink-50 flex items-center justify-center">
+                        <Github className="w-10 h-10 text-rose-500" />
                       </div>
-                      <h3 className="text-2xl font-black text-slate-800 text-center">Paste URL</h3>
-                      <p className="text-slate-600 text-center font-medium leading-relaxed">
-                        Enter your GitHub repository URL and add optional metadata to customize your README
-                      </p>
                     </div>
+                    <h3 className="text-xl font-bold text-slate-900">Paste Your Repository Link</h3>
+                    <p className="text-slate-600 text-sm">
+                      Just drop your GitHub repo URL
+                    </p>
+                  </div>
+
+                  {/* Arrow */}
+                  <div className="hidden md:flex items-center justify-center -mt-8">
+                    <ArrowRight className="w-8 h-8 text-pink-300" />
                   </div>
 
                   {/* Step 2 */}
-                  <div className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-indigo-400 to-purple-500 rounded-3xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity"></div>
-                    <div className="relative bg-white/80 backdrop-blur-xl border-2 border-indigo-200 rounded-3xl p-8 space-y-4 hover:border-indigo-300 hover:shadow-2xl hover:shadow-indigo-200/50 transition-all hover:-translate-y-2">
-                      <div className="flex justify-center">
-                        <div className="relative">
-                          <div className="absolute inset-0 bg-indigo-400 rounded-full blur-xl opacity-50"></div>
-                          <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-2xl shadow-indigo-300/50">
-                            <span className="text-3xl font-black text-white">2</span>
-                          </div>
-                        </div>
+                  <div className="text-center space-y-4">
+                    <div className="flex justify-center mb-2">
+                      <div className="w-20 h-20 rounded-full bg-pink-50 flex items-center justify-center">
+                        <Sparkles className="w-10 h-10 text-rose-500" />
                       </div>
-                      <h3 className="text-2xl font-black text-slate-800 text-center">AI Analysis</h3>
-                      <p className="text-slate-600 text-center font-medium leading-relaxed">
-                        Our AI analyzes your code structure, dependencies, and generates comprehensive documentation
-                      </p>
                     </div>
+                    <h3 className="text-xl font-bold text-slate-900">Let AI Analyze & Generate</h3>
+                    <p className="text-slate-600 text-sm">
+                      Our AI reads your codebase, then crafts a tailored README.md.
+                    </p>
+                  </div>
+
+                  {/* Arrow */}
+                  <div className="hidden md:flex items-center justify-center -mt-8">
+                    <ArrowRight className="w-8 h-8 text-pink-300" />
                   </div>
 
                   {/* Step 3 */}
-                  <div className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-purple-400 to-pink-500 rounded-3xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity"></div>
-                    <div className="relative bg-white/80 backdrop-blur-xl border-2 border-purple-200 rounded-3xl p-8 space-y-4 hover:border-purple-300 hover:shadow-2xl hover:shadow-purple-200/50 transition-all hover:-translate-y-2">
-                      <div className="flex justify-center">
-                        <div className="relative">
-                          <div className="absolute inset-0 bg-purple-400 rounded-full blur-xl opacity-50"></div>
-                          <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-2xl shadow-purple-300/50">
-                            <span className="text-3xl font-black text-white">3</span>
-                          </div>
-                        </div>
+                  <div className="text-center space-y-4">
+                    <div className="flex justify-center mb-2">
+                      <div className="w-20 h-20 rounded-full bg-pink-50 flex items-center justify-center">
+                        <FileText className="w-10 h-10 text-rose-500" />
                       </div>
-                      <h3 className="text-2xl font-black text-slate-800 text-center">Edit & Download</h3>
-                      <p className="text-slate-600 text-center font-medium leading-relaxed">
-                        Review, customize, and download your professional README in markdown format
-                      </p>
                     </div>
+                    <h3 className="text-xl font-bold text-slate-900">Get Your Polished README</h3>
+                    <p className="text-slate-600 text-sm">
+                      Download or copy your clean, professional README
+                    </p>
                   </div>
                 </div>
               </div>
