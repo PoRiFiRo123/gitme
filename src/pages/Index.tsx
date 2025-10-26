@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Github, Sparkles, Code2, FileText, Zap, ArrowRight, CheckCircle2, Star, GitBranch, Package, Users } from "lucide-react";
+import { Github, Sparkles, Code2, FileText, Zap, ArrowRight, ArrowDown, CheckCircle2, Star, GitBranch, Package, Users } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { toast } from "@/hooks/use-toast";
 
@@ -226,7 +226,7 @@ const Index = () => {
             </div>
 
             {/* How It Works Section */}
-            <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-350">
+            <div id="how-it-works" className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-350">
               <div className="text-center">
                 <h2 className="text-4xl md:text-5xl font-black text-slate-800">
                   How It Works
@@ -234,12 +234,12 @@ const Index = () => {
               </div>
 
               <div className="max-w-6xl mx-auto">
-                <div className="flex items-center justify-between gap-6">
+                <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12">
                   {/* Step 1 */}
-                  <div className="flex-1 text-center space-y-4">
+                  <div className="flex-1 text-center space-y-4 mb-8 md:mb-0">
                     <div className="flex justify-center mb-4">
-                      <div className="w-24 h-24 rounded-full bg-gradient-to-br from-pink-50 to-rose-50 flex items-center justify-center border border-pink-100">
-                        <Github className="w-12 h-12 text-rose-500" />
+                      <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center border border-blue-100">
+                        <Github className="w-12 h-12 text-blue-600" />
                       </div>
                     </div>
                     <h3 className="text-xl font-bold text-slate-900">Paste Your Repository Link</h3>
@@ -249,15 +249,16 @@ const Index = () => {
                   </div>
 
                   {/* Arrow 1 */}
-                  <div className="flex items-center justify-center pt-6">
-                    <ArrowRight className="w-8 h-8 text-pink-300" />
+                  <div className="flex items-center justify-center pt-6 md:pt-0">
+                    <ArrowDown className="w-8 h-8 text-indigo-300 md:hidden" />
+                    <ArrowRight className="w-8 h-8 text-indigo-300 hidden md:flex" />
                   </div>
 
                   {/* Step 2 */}
-                  <div className="flex-1 text-center space-y-4">
+                  <div className="flex-1 text-center space-y-4 mb-8 md:mb-0">
                     <div className="flex justify-center mb-4">
-                      <div className="w-24 h-24 rounded-full bg-gradient-to-br from-pink-50 to-rose-50 flex items-center justify-center border border-pink-100">
-                        <Sparkles className="w-12 h-12 text-rose-500" />
+                      <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center border border-indigo-100">
+                        <Sparkles className="w-12 h-12 text-indigo-600" />
                       </div>
                     </div>
                     <h3 className="text-xl font-bold text-slate-900">Let AI Analyze & Generate</h3>
@@ -267,15 +268,16 @@ const Index = () => {
                   </div>
 
                   {/* Arrow 2 */}
-                  <div className="flex items-center justify-center pt-6">
-                    <ArrowRight className="w-8 h-8 text-pink-300" />
+                  <div className="flex items-center justify-center pt-6 md:pt-0">
+                    <ArrowDown className="w-8 h-8 text-purple-300 md:hidden" />
+                    <ArrowRight className="w-8 h-8 text-purple-300 hidden md:flex" />
                   </div>
 
                   {/* Step 3 */}
                   <div className="flex-1 text-center space-y-4">
                     <div className="flex justify-center mb-4">
-                      <div className="w-24 h-24 rounded-full bg-gradient-to-br from-pink-50 to-rose-50 flex items-center justify-center border border-pink-100">
-                        <FileText className="w-12 h-12 text-rose-500" />
+                      <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center border border-purple-100">
+                        <FileText className="w-12 h-12 text-purple-600" />
                       </div>
                     </div>
                     <h3 className="text-xl font-bold text-slate-900">Get Your Polished README</h3>
@@ -288,7 +290,7 @@ const Index = () => {
             </div>
 
             {/* Features Section */}
-            <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-400">
+            <div id="features" className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-400">
               <div className="text-center space-y-4">
                 <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
                   Powerful Features
