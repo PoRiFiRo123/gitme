@@ -95,9 +95,9 @@ const Index = () => {
   ];
 
   const stats = [
-    { value: "10K+", label: "READMEs Generated" },
-    { value: "99%", label: "Success Rate" },
-    { value: "5s", label: "Average Time" }
+    { value: "10+", label: "READMEs Generated" },
+    { value: "95%", label: "Success Rate" },
+    { value: "30s", label: "Average Time" }
   ];
 
   return (
